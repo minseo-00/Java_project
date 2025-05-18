@@ -1,6 +1,13 @@
-package bookmarket0;
+package com.market.main;
 
 import java.util.Scanner;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+
+import com.market.bookitem.Book;
+import com.market.cart.Cart;
+import com.market.member.Admin;
+import com.market.member.User;
 
 public class welcome {
 	static final int NUM_BOOK = 3; // 도서의 개수에 대한 상수 NUM_BOOK 선언
@@ -170,6 +177,52 @@ public class welcome {
 		}
 	}
 
+	public static void menuCartBill() { // 주문 처리를 위한 고객의 정보 저장하는 메서드
+		// System.out.println("7. 영수증 표시하기");
+		if(mCart.mCartCount == 0) System.out.println("장바구니에 항목이 없습니다.");
+		
+		else {
+			System.out.println("배송받을 분은 고객 정보와 같습니까? Y | N ");
+			Scanner input = new Scanner(System.in);
+			String str = input.nextLine();
+			
+			if(str.toUpperCase().equals("Y")) {
+				System.out.println("배송지를 입력해주세요 ");
+				String address = input.nextLine();
+				printBill(mUser.getName(), String.valueOf(mUser.getPhone()), address); // 배송을 위한 고객정보와 영수증 출력을 위한 printBill 메서드 호출
+			}
+			else {
+				System.out.print("배송받을 고객명을 입력하세요 ");
+				String name = input.nextLine();
+				System.out.print("배송받을 고객의 연락처를 입력하세요 ");
+				String phone = input.nextLine();
+				System.out.print("배송받을 고객의 배송지를 입력해주세요 ");
+				String address = input.nextLine();
+				printBill(name, phone, address);
+			}
+		}
+	}
+	
+	public static void printBill(String name, String phone, String address) {  // 주문 처리 후 영수증을 표시하는 메서드
+		Date date = new Date(); // MM/dd/yyyy 형식의 현재 날짜 정보를 엳음
+		SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+		String strDate = formatter.format(date);
+		System.out.println();
+		System.out.println("----------------배송받을 고객 정보-----------------");
+		System.out.println("고객명 : "+ name + "   \t\t연락처 : " + phone);
+		System.out.println("배송지 : "+ address + "   \t\t발송일 : " + strDate);
+		
+		mCart.printCart(); // 장바구니에 담긴 항목 출력
+		
+		int sum = 0;
+		for(int i = 0; i < mCart.mCartCount; i++)
+			sum += mCart.mCartItem[i].getTotalPrice();
+		
+		System.out.println("\t\t\t주문 총금액 : " + sum + "원\n");
+		System.out.println("-----------------------------------------------");
+		System.out.println();
+	}
+
 	public static void menuExit() { // 종료하는 메서드
 		System.out.println("8. 종료");
 	}
@@ -314,6 +367,7 @@ public class welcome {
 					break;
 				case 7:
 //				System.out.println("7. 영수증 표시하기");
+					menuCartBill();
 					break;
 				case 8:
 //				System.out.println("8. 종료");

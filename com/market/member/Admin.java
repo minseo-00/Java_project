@@ -1,4 +1,4 @@
-package bookmarket0;
+package com.market.member;
 
 public class Admin extends Person {
 	private String id = "Admin";

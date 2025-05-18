@@ -1,4 +1,6 @@
-package bookmarket0;
+package com.market.cart;
+
+import com.market.bookitem.Book;
 
 public interface CartInterface {
 

@@ -1,4 +1,4 @@
-package bookmarket0;
+package com.market.member;
 
 public class User extends Person {
 
